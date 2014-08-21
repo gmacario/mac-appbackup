@@ -5,9 +5,15 @@
 APPLIST=applist-$(hostname)-$(date +'%Y%m%d').txt
 APPBKDIR=appbackup-$(hostname)
 
+if [ `whoami` != root ]; then
+    SUDO=sudo
+else
+    SUDO=""
+fi
+
 if [ ! -e ${APPLIST} ]; then
     echo "INFO: Creating ${APPLIST}"
-    sudo find / -name "*.app" -print >$APPLIST
+    ${SUDO} find / -name "*.app" -print >$APPLIST
 fi
 
 mkdir -p ${APPBKDIR}
@@ -17,7 +23,7 @@ mkdir -p ${APPBKDIR}
     dn=$(dirname "${line}")
     entry=$(basename "${line}")
     mkdir -p "${APPBKDIR}/${dn}"
-    (cd "${dn}" && tar -cz "${entry}") >"${APPBKDIR}/${dn}/${entry}.tar.gz"
+    (cd "${dn}" && ${SUDO} tar -cz "${entry}") >"${APPBKDIR}/${dn}/${entry}.tar.gz"
 done) < ${APPLIST}
 
 # EOF
