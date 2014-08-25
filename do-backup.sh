@@ -13,7 +13,7 @@ fi
 
 if [ ! -e ${APPLIST} ]; then
     echo "INFO: Creating ${APPLIST}"
-    ${SUDO} find / -name "*.app" -print >$APPLIST
+    ${SUDO} find /Applications -depth 1 \! -name ".*" -print >$APPLIST
 fi
 
 mkdir -p ${APPBKDIR}
