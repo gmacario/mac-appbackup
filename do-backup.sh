@@ -23,7 +23,7 @@ mkdir -p ${APPBKDIR}
     dn=$(dirname "${line}")
     entry=$(basename "${line}")
     mkdir -p "${APPBKDIR}/${dn}"
-    (cd "${dn}" && ${SUDO} tar -cz "${entry}") >"${APPBKDIR}/${dn}/${entry}.tar.gz"
+    ${SUDO} tar -cz -C "${dn}" -f "${APPBKDIR}/${dn}/${entry}.tar.gz" "${entry}"
 done) < ${APPLIST}
 
 # EOF
